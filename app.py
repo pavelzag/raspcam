@@ -10,6 +10,7 @@ camera = picamera.PiCamera()
 @get('/get_image')
 def get_image():
     camera.capture('image.jpg')
+    return 'image.jpg'
     pass
 
 if __name__ == "__main__":
