@@ -22,7 +22,7 @@ def image_crop():
             half_the_height + 75
         )
     )
-    img4.save("image_post.jpg")
+    img4.save(post_crop)
 
 
 @route('/get_image')
