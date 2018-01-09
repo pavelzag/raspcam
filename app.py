@@ -1,19 +1,25 @@
 import os
 import picamera
-# from bottle import Bottle, run, get, BaseRequest
-from flask import Flask,send_file
+from bottle import Bottle, run, static_file, route, BaseRequest
 
-filename = 'image.jpg'
-app = Flask(__name__)
-# BaseRequest.MEMFILE_MAX = 1000000
+app = Bottle()
+BaseRequest.MEMFILE_MAX = 1000000
 camera = picamera.PiCamera()
 
 
-@app.route('/get_image')
-def get_image():
-    camera.capture(filename)
-    camera.close()
-    return send_file(filename, mimetype='image/gif')
+# @get('/get_image')
+# def get_image():
+#     camera.capture('image.jpg')
+#     return send_file(filename, mimetype='image/gif')
+
+@route('/image')
+def video_image():
+    camera.capture("image.jpg", format='jpeg')
+
+    return static_file("image.jpg",
+                       root=".",
+                       mimetype='image/jpg')
 
 if __name__ == "__main__":
-    app.run(debug=False, use_reloader=True)
+    port = int(os.environ.get('PORT', 8080))
+    run(debug=True, host='0.0.0.0', port=port, reloadable=True)
