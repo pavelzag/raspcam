@@ -28,6 +28,7 @@ def image_crop():
 @route('/get_image')
 def get_image():
     camera.capture(image_file, format='jpeg')
+    image_crop()
     return static_file(post_crop,
                        root=".",
                        mimetype='image/jpg')
