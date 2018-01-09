@@ -25,9 +25,8 @@ def image_crop():
     img4.save("image_post.jpg")
 
 
-@route('/image')
-def video_image():
-    pass
+@route('/get_image')
+def get_image():
     camera.capture(image_file, format='jpeg')
     return static_file(post_crop,
                        root=".",
