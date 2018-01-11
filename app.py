@@ -53,6 +53,16 @@ def get_image():
                        mimetype='image/jpg')
 
 
+@route('/get_full_image')
+def get_full_image():
+    if 'Darwin' not in platform.platform():
+        capture()
+        image_crop()
+    return static_file(image_file,
+                       root=".",
+                       mimetype='image/jpg')
+
+
 @route('/static/<filename>')
 def server_static(filename):
     return static_file(post_crop, root='')
