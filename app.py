@@ -1,6 +1,6 @@
 import os
 import platform
-from bottle import Bottle, run, static_file, route, BaseRequest
+from bottle import Bottle, run, static_file, route, BaseRequest, template
 from PIL import Image
 from GoogleOCR import detect_text
 app = Bottle()
@@ -31,20 +31,22 @@ def image_crop():
     img4.save(post_crop)
 
 
-@route('/get_image')
-def get_image():
+@route('/get_numbers')
+def get_numbers():
     if 'Darwin' not in platform.platform():
         capture()
         image_crop()
     whole = detect_text(post_crop)
-    return whole
-    # voltage, current, charge_amt = detect_text(post_crop)
-    # return '{} {} {} {} {} {}'.format('The Voltage is:', voltage,
-    #                                   'The Current is:', current,
-    #                                   'The charge amount is:', charge_amt)
-    # return static_file(post_crop,
-    #                    root=".",
-    #                    mimetype='image/jpg')
+    info = {'content': whole}
+    return template('index.tpl', info)
+
+
+@route('/get_image')
+def get_image():
+    return static_file(post_crop,
+                       root=".",
+                       mimetype='image/jpg')
+
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 8081))
