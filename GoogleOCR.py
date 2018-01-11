@@ -13,7 +13,7 @@ def detect_text(file_name):
     response = client.text_detection(image=image)
     texts = response.text_annotations
     for text in texts:
-        print('\n"{} {}"'.format(text.description))
+        print('\n"{}"'.format(text.description))
     print('{} {}'.format('Amount of values in returning list:', len(texts)))
     voltage = values_builder(texts, 'voltage')
     current = values_builder(texts, 'current')
