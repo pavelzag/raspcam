@@ -13,6 +13,7 @@ def capture():
     import picamera
     camera = picamera.PiCamera()
     camera.capture(image_file, format='jpeg')
+    camera.close()
 
 
 def image_crop():
