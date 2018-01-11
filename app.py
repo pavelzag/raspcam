@@ -5,8 +5,8 @@ from PIL import Image
 from GoogleOCR import detect_text
 app = Bottle()
 BaseRequest.MEMFILE_MAX = 1000000
-image_file = "myfiles/image.jpeg"
-post_crop = "myfiles/image_post_crop.jpeg"
+image_file = "image.jpeg"
+post_crop = "image_post_crop.jpeg"
 
 
 def capture():
