@@ -5,8 +5,8 @@ from PIL import Image
 from GoogleOCR import detect_text
 app = Bottle()
 BaseRequest.MEMFILE_MAX = 1000000
-image_file = "image.jpeg"
-post_crop = "image_post_crop.jpeg"
+image_file = "myfiles/image.jpeg"
+post_crop = "myfiles/image_post_crop.jpeg"
 
 
 def capture():
@@ -31,8 +31,8 @@ def image_crop():
     img4.save(post_crop)
 
 
-@route('/get_numbers')
-def get_numbers():
+@route('/')
+def index():
     if 'Darwin' not in platform.platform():
         capture()
         image_crop()
@@ -50,6 +50,10 @@ def get_image():
                        root=".",
                        mimetype='image/jpg')
 
+
+@route('/static/<filename>')
+def server_static(filename):
+    return static_file(filename, root='./myfiles')
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 8081))
