@@ -25,8 +25,11 @@ def detect_text(file_name):
 
 def values_builder(texts, value_type=None):
     if not value_type:
-        string_before = texts[0].description
-        return string_before.replace('\n', ' ').replace('CH:4', '').replace('CH 4', '').replace('U', 'V')
+        try:
+            string_before = texts[0].description
+            return string_before.replace('\n', ' ').replace('CH:4', '').replace('CH 4', '').replace('U', 'V')
+        except:
+            return 'Too dark mate'
     if value_type == 'voltage':
         # voltage = texts[1].description + texts[2].description
         voltage = texts[2].description
