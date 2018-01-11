@@ -13,7 +13,7 @@ def detect_text(file_name):
     response = client.text_detection(image=image)
     texts = response.text_annotations
     for text in texts:
-        print('\n"{}"'.format(text.description))
+        print('\n"{} {}"'.format(text.description))
     print('{} {}'.format('Amount of values in returning list:', len(texts)))
     voltage = values_builder(texts, 'voltage')
     current = values_builder(texts, 'current')
@@ -23,11 +23,12 @@ def detect_text(file_name):
 
 def values_builder(texts, value_type):
     if value_type == 'voltage':
-        voltage = texts[1].description + texts[2].description
+        # voltage = texts[1].description + texts[2].description
+        voltage = texts[2].description
         return string.replace(voltage, 'U', 'V')
     elif value_type == 'current':
-        current_str = texts[4].description.split("-")[-2]
+        current_str = texts[5].description.split("-")[-2]
         return current_str
     elif value_type == 'charge_amt':
-        charge_amt = '{}{}'.format('-', texts[4].description.split("-")[1])
+        charge_amt = '{}{}'.format('-', texts[5].description.split("-")[1])
         return charge_amt
