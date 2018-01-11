@@ -15,13 +15,17 @@ def detect_text(file_name):
     for text in texts:
         print('\n"{}"'.format(text.description))
     print('{} {}'.format('Amount of values in returning list:', len(texts)))
-    voltage = values_builder(texts, 'voltage')
-    current = values_builder(texts, 'current')
-    charge_amt = values_builder(texts, 'charge_amt')
-    return voltage, current, charge_amt
+    whole = values_builder(texts)
+    # voltage = values_builder(texts, 'voltage')
+    # current = values_builder(texts, 'current')
+    # charge_amt = values_builder(texts, 'charge_amt')
+    # return voltage, current, charge_amt
+    return whole
 
 
-def values_builder(texts, value_type):
+def values_builder(texts, value_type=None):
+    if not value_type:
+        return texts[0].description
     if value_type == 'voltage':
         # voltage = texts[1].description + texts[2].description
         voltage = texts[2].description

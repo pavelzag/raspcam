@@ -35,10 +35,12 @@ def get_image():
     if 'Darwin' not in platform.platform():
         capture()
         image_crop()
-    voltage, current, charge_amt = detect_text(post_crop)
-    return '{} {} {} {} {} {}'.format('The Voltage is:', voltage,
-                                      'The Current is:', current,
-                                      'The charge amount is:', charge_amt)
+    whole = detect_text(post_crop)
+    return whole
+    # voltage, current, charge_amt = detect_text(post_crop)
+    # return '{} {} {} {} {} {}'.format('The Voltage is:', voltage,
+    #                                   'The Current is:', current,
+    #                                   'The charge amount is:', charge_amt)
     # return static_file(post_crop,
     #                    root=".",
     #                    mimetype='image/jpg')
