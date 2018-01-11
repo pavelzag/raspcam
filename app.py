@@ -55,7 +55,7 @@ def get_image():
 
 @route('/static/<filename>')
 def server_static(filename):
-    return static_file(filename, root='')
+    return static_file(post_crop, root='')
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 8081))
