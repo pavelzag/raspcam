@@ -29,7 +29,7 @@ def values_builder(texts, value_type=None):
             string_before = texts[0].description
             return string_before.replace('\n', ' ').replace('CH:4', '').replace('CH 4', '').replace('U', 'V')
         except:
-            return 'Too dark mate'
+            return 'Too dark to calculates'
     if value_type == 'voltage':
         # voltage = texts[1].description + texts[2].description
         voltage = texts[2].description
