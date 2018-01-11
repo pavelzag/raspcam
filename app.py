@@ -1,13 +1,17 @@
 import os
-import picamera
+import platform
 from bottle import Bottle, run, static_file, route, BaseRequest
 from PIL import Image
-
+from GoogleOCR import detect_text
 app = Bottle()
 BaseRequest.MEMFILE_MAX = 1000000
-camera = picamera.PiCamera()
 image_file = "image.jpeg"
 post_crop = "image_post_crop.jpeg"
+
+
+def capture():
+    import picamera
+    camera = picamera.PiCamera()
 
 
 def image_crop():
@@ -27,11 +31,16 @@ def image_crop():
 
 @route('/get_image')
 def get_image():
-    camera.capture(image_file, format='jpeg')
+    if 'Darwin' not in platform.platform():
+        capture()
     image_crop()
-    return static_file(post_crop,
-                       root=".",
-                       mimetype='image/jpg')
+    voltage, current, charge_amt = detect_text(post_crop)
+    return '{} {} {} {} {} {}'.format('The Voltage is:', voltage,
+                                      'The Current is:', current,
+                                      'The charge amount is:', charge_amt)
+    # return static_file(post_crop,
+    #                    root=".",
+    #                    mimetype='image/jpg')
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 8081))
