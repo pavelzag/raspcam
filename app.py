@@ -34,7 +34,7 @@ def image_crop():
 def get_image():
     if 'Darwin' not in platform.platform():
         capture()
-    image_crop()
+        image_crop()
     voltage, current, charge_amt = detect_text(post_crop)
     return '{} {} {} {} {} {}'.format('The Voltage is:', voltage,
                                       'The Current is:', current,
