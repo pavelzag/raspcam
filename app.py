@@ -43,6 +43,9 @@ def get_numbers():
 
 @route('/get_image')
 def get_image():
+    if 'Darwin' not in platform.platform():
+        capture()
+        image_crop()
     return static_file(post_crop,
                        root=".",
                        mimetype='image/jpg')
