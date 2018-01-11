@@ -12,11 +12,13 @@ post_crop = "myfiles/image_post_crop.jpeg"
 def capture():
     import picamera
     camera = picamera.PiCamera()
+    print('capturing the image')
     camera.capture(image_file, format='jpeg')
     camera.close()
 
 
 def image_crop():
+    print('cropping the image')
     img = Image.open(image_file)
     half_the_width = img.size[0] / 2
     half_the_height = img.size[1] / 2
