@@ -1,13 +1,14 @@
 import os
 import platform
+from logger import logging_handler
 from bottle import Bottle, run, static_file, route, BaseRequest, template
 from PIL import Image
 from GoogleOCR import detect_text
 
 creds_path = os.path.join(os.getcwd(), "googlecreds.json")
-print(creds_path)
+logging_handler(creds_path)
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = creds_path
-print os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+logging_handler(os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
 app = Bottle()
 BaseRequest.MEMFILE_MAX = 1000000
 image_file = "image.jpeg"
