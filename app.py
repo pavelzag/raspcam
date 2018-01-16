@@ -1,8 +1,14 @@
 import os
 import platform
+from logger import logging_handler
 from bottle import Bottle, run, static_file, route, BaseRequest, template
 from PIL import Image
 from GoogleOCR import detect_text
+
+creds_path = os.path.join(os.getcwd(), "googlecreds.json")
+logging_handler(creds_path)
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = creds_path
+logging_handler(os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
 app = Bottle()
 BaseRequest.MEMFILE_MAX = 1000000
 image_file = "image.jpeg"
@@ -35,7 +41,7 @@ def image_crop():
 
 @route('/')
 def index():
-    if 'Darwin' not in platform.platform():
+    if 'Darwin' and 'fedora' not in platform.platform():
         capture()
         image_crop()
     whole = detect_text(post_crop)
@@ -66,6 +72,7 @@ def get_full_image():
 @route('/static/<filename>')
 def server_static(filename):
     return static_file(post_crop, root='')
+
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 8081))

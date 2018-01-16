@@ -31,7 +31,6 @@ def values_builder(texts, value_type=None):
         except:
             return 'Too dark to calculate'
     if value_type == 'voltage':
-        # voltage = texts[1].description + texts[2].description
         voltage = texts[2].description
         return string.replace(voltage, 'U', 'V')
     elif value_type == 'current':
