@@ -9,7 +9,7 @@ from send_mail import send_mail
 from GoogleOCR import detect_text
 
 creds_path = os.path.join(os.getcwd(), "googlecreds.json")
-owner = get_owner
+owner = get_owner()
 logging_handler(creds_path)
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = creds_path
 logging_handler(os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
