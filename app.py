@@ -1,11 +1,15 @@
 import os
 import platform
+import socket
 from logger import logging_handler
+from configuration import get_owner
 from bottle import Bottle, run, static_file, route, BaseRequest, template
 from PIL import Image
+from send_mail import send_mail
 from GoogleOCR import detect_text
 
 creds_path = os.path.join(os.getcwd(), "googlecreds.json")
+owner = get_owner
 logging_handler(creds_path)
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = creds_path
 logging_handler(os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
@@ -43,6 +47,18 @@ def image_crop():
     img4.save(post_crop)
 
 
+def get_machine_ip():
+    """Gets the running machine's IP address"""
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(('10.255.255.255', 1))
+        IP = s.getsockname()[0]
+    except:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
+
 @route('/')
 def index():
     if not any(env in current_platform for env in local_envs):
@@ -79,5 +95,8 @@ def server_static(filename):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 8082))
+    ip_address = get_machine_ip()
+    startup_msg = '{} {}'.format('Rasp Cam machine runs on', ip_address)
+    send_mail(send_to=owner, subject='Start up Message', text=startup_msg)
+    port = int(os.environ.get('PORT', 8081))
     run(debug=True, host='0.0.0.0', port=port, reloadable=True)
