@@ -13,6 +13,10 @@ app = Bottle()
 BaseRequest.MEMFILE_MAX = 1000000
 image_file = "image.jpeg"
 post_crop = "image_post_crop.jpeg"
+local_envs = ['Darwin', 'fedora']
+current_platform = platform.platform()
+msg = '{} {}'.format('Current platform is:', current_platform)
+logging_handler(msg)
 
 
 def capture():
@@ -41,7 +45,7 @@ def image_crop():
 
 @route('/')
 def index():
-    if 'Darwin' and 'fedora' not in platform.platform():
+    if not any(env in current_platform for env in local_envs):
         capture()
         image_crop()
     whole = detect_text(post_crop)
@@ -51,7 +55,7 @@ def index():
 
 @route('/get_image')
 def get_image():
-    if 'Darwin' not in platform.platform():
+    if not any(env in current_platform for env in local_envs):
         capture()
         image_crop()
     return static_file(post_crop,
@@ -61,7 +65,7 @@ def get_image():
 
 @route('/get_full_image')
 def get_full_image():
-    if 'Darwin' not in platform.platform():
+    if not any(env in current_platform for env in local_envs):
         capture()
         image_crop()
     return static_file(image_file,
@@ -75,5 +79,5 @@ def server_static(filename):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 8081))
+    port = int(os.environ.get('PORT', 8082))
     run(debug=True, host='0.0.0.0', port=port, reloadable=True)
