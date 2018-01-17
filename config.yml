@@ -1,2 +1,8 @@
+creds:
+    email: me@gmail.com
+    user: user
+    password: pass
+    sleep_time: 1
+    owner: mey@gmail.com
 owner:
     'me@gmail.com'
